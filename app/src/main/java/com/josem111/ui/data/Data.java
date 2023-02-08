@@ -26,9 +26,9 @@ public class Data {
     public static List<Data> getDataList() {
         List<Data> dataList;
         String[] values = {
-                "Java", "CSS3", "Android", "jQuery", "PHP", "MySpace",
-                "HTML5", "Javascript", "MySQL", "Python", "Swift",
-                "WordPress", "Facebook", "Youtube", "Twitter"
+                "Logos Party", "B-Ball Fest", "City Event", "Top Event", "Farm Fest", "Wood-Fest",
+                "Snowy Hostile", "Highway to Hell", "Fall Fest", "Beach Fest", "Yellow Road Fest",
+                "Lulu's", "Tide Event", "Youtube Event", "Twitter Fest"
         };
 
         int[] images = {

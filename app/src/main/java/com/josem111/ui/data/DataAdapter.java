@@ -1,12 +1,13 @@
+// DataAdapter.java
 package com.josem111.ui.data;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
-import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.ArrayAdapter;
+import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -14,33 +15,54 @@ import com.josem111.R;
 
 import java.util.List;
 
-public class DataAdapter extends ArrayAdapter<Data> {
-    private final Context context;
-    private final List<Data> dataList;
+public class DataAdapter extends BaseAdapter {
+    private final Context mContext;
+    private final List<Data> mDataList;
 
     public DataAdapter(Context context, List<Data> dataList) {
-        super(context, R.layout.grid_item, dataList);
-        this.context = context;
-        this.dataList = dataList;
+        mContext = context;
+        mDataList = dataList;
+    }
+
+    @Override
+    public int getCount() {
+        return mDataList.size();
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return mDataList.get(position);
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return position;
     }
 
     @SuppressLint("InflateParams")
     @Override
-    public View getView(int position, View convertView, ViewGroup parent) {
-        LayoutInflater inflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+    public View getView(final int position, View convertView, ViewGroup parent) {
+        View view = convertView;
 
-        View gridView =
-                convertView == null
-                        ? inflater.inflate(R.layout.grid_item, null)
-                        : convertView;
+        if (view == null) {
+            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+            view = inflater.inflate(R.layout.grid_item, null);
+        }
 
-        TextView textView = gridView.findViewById(R.id.textView);
-        ViewCompat.setNestedScrollingEnabled(gridView,true);
-        ImageView imageView = gridView.findViewById(R.id.imageView);
+        ImageView imageView = view.findViewById(R.id.imageView);
+        TextView textView = view.findViewById(R.id.textView);
+        Button deleteButton = view.findViewById(R.id.deleteButton);
 
-        textView.setText(dataList.get(position).getValue());
-        imageView.setImageResource(dataList.get(position).getImage());
+        final Data data = mDataList.get(position);
 
-        return gridView;
+        imageView.setImageResource(data.getImage());
+        textView.setText(data.getValue());
+
+        deleteButton.setOnClickListener((View v) -> {
+            mDataList.remove(position);
+            notifyDataSetChanged();
+        });
+
+        return view;
     }
 }
