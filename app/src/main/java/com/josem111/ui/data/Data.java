@@ -1,8 +1,5 @@
 package com.josem111.ui.data;
 
-import android.widget.ImageView;
-import android.widget.TextView;
-
 import com.josem111.R;
 
 import java.util.List;
@@ -24,25 +21,6 @@ public class Data {
 
     public int getImage() {
         return image;
-    }
-
-    // Inner class helper
-    public static class DataHolder {
-        private final ImageView imageView;
-        private final TextView textView;
-
-        public DataHolder(ImageView imageView, TextView textView) {
-            this.imageView = imageView;
-            this.textView = textView;
-        }
-
-        public ImageView getImageView() {
-            return imageView;
-        }
-
-        public TextView getTextView() {
-            return textView;
-        }
     }
 
     public static List<Data> getDataList() {
