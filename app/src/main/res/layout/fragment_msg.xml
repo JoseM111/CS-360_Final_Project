@@ -14,10 +14,11 @@
         tools:ignore="HardcodedText" />
 
     <Button
-        android:id="@+id/button_request_permission"
+        android:id="@+id/show_popup_btn"
+        android:textColor="@color/black"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Request Permission"
+        android:text="show permissions"
         android:layout_marginTop="16dp"
         tools:ignore="HardcodedText" />
 

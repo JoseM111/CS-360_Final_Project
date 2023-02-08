@@ -1,29 +1,171 @@
-1. I need the UI for my fragment_msg to follow a certain criteria.
-2. This is the current code I have:
+1. This is an Android studio app. Here is my build.gradle file for context of the project:
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.josem111'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.josem111"
+        minSdk 28
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+    //noinspection GradleCompatible
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
+    implementation 'android.arch.lifecycle:livedata:1.1.1'
+    implementation 'android.arch.lifecycle:viewmodel:1.1.1'
+    implementation 'android.arch.navigation:navigation-fragment:1.0.0'
+    implementation 'android.arch.navigation:navigation-ui:1.0.0'
+    //noinspection GradleCompatible
+    implementation 'com.android.support:design:28.0.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+2.I need to be able to see all the refactored code please.
+
+3. I need the following code to show a popup for when a button is clicked:
+// PermissionManager.java
+package com.josem111.ui.msg;
+
+import android.app.Activity;
+import android.content.Context;
+import android.content.pm.PackageManager;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
+
+public class PermissionManager {
+    public static final int SMS_PERMISSION_REQUEST_CODE = 1;
+    private static PermissionCallback mPermissionCallback;
+
+    public static boolean checkPermission(Context context, String permission) {
+        return ContextCompat.checkSelfPermission(context, permission) == PackageManager.PERMISSION_GRANTED;
+    }
+
+    public static void requestPermission(Activity activity, String permission, PermissionCallback callback) {
+        mPermissionCallback = callback;
+        if (!checkPermission(activity, permission)) {
+            ActivityCompat.requestPermissions(activity, new String[]{permission}, SMS_PERMISSION_REQUEST_CODE);
+        } else {
+            mPermissionCallback.onPermissionGranted();
+        }
+    }
+
+    public static void onRequestPermissionsResult(int requestCode, int[] grantResults) {
+        if (requestCode == SMS_PERMISSION_REQUEST_CODE) {
+            if (grantResults.length > 0 && grantResults[0] == PackageManager.PERMISSION_GRANTED) {
+                mPermissionCallback.onPermissionGranted();
+            } else {
+                mPermissionCallback.onPermissionDenied();
+            }
+        }
+    }
+
+    public interface PermissionCallback {
+        void onPermissionGranted();
+        void onPermissionDenied();
+    }
+}
+// MsgFragment.java
+package com.josem111.ui.msg;
+
+import android.app.Activity;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.support.v4.app.Fragment;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.Button;
+import android.widget.Toast;
+
+import com.josem111.R;
+
+public class MsgFragment extends Fragment implements PermissionManager.PermissionCallback {
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        // Inflate the layout for this fragment
+        View view = inflater.inflate(R.layout.fragment_msg, container, false);
+
+        Button mButton = view.findViewById(R.id.button_request_permission);
+        mButton.setOnClickListener((View v) -> requestSmsPermission());
+        return view;
+    }
+
+    @Override
+    public void onPermissionGranted() {
+        if (getView() != null) {
+            Toast.makeText(getContext(), "Permission granted!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    @Override
+    public void onPermissionDenied() {
+        if (getView() != null) {
+            Toast.makeText(getContext(), "Permission denied!", Toast.LENGTH_SHORT).show();
+        }
+    }
+
+    public void requestSmsPermission() {
+        Activity activity = getActivity();
+        if (activity != null) {
+            PermissionManager.requestPermission(activity, android.Manifest.permission.READ_SMS, this);
+        }
+    }
+
+    @Override
+    public void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        super.onRequestPermissionsResult(requestCode, permissions, grantResults);
+        PermissionManager.onRequestPermissionsResult(requestCode, grantResults);
+    }
+}
+// fragment_msg.xml
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:orientation="vertical"
-    android:gravity="center">
+    android:gravity="center"
+    android:padding="16dp">
+
+    <TextView
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Allow the app to communicate with the text messaging app?"
+        android:textSize="28sp"
+        tools:ignore="HardcodedText" />
 
     <Button
         android:id="@+id/button_request_permission"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:text="Request Permission"
+        android:layout_marginTop="16dp"
         tools:ignore="HardcodedText" />
 
 </LinearLayout>
-3. I need the UI to fllow more of these guide lines:
-Create UI with appropriate design elements to prompt a user for permission
-to communicate with the text messaging app and display information based on
- permission (1 screen). Your UI will need to include a button, or alternate
-  mechanism, that would cause the app to ask a user for permissions so it can
-   communicate with SMS messaging. A user that grants permission will then receive
-    automated system notifications based on which option you chose in Project One.
-     These notifications would be low inventory, an upcoming event,
-      or reaching a goal weight. If the user denies access to the permissions
-      needed for the app to interact with SMS, then your app should still continue
-       to function overall but should not provide any notifications.
-4. worry about the UI and less on the functionality.
