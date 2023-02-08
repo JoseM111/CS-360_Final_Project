@@ -11,6 +11,8 @@
         android:layout_height="0dp"
         android:layout_weight="1"
         android:numColumns="3"
+        android:scrollbars="vertical"
+        android:scrollbarSize="@dimen/cardview_compat_inset_shadow"
         tools:ignore="MissingClass" />
 
     <Button

@@ -2,6 +2,7 @@ package com.josem111.ui.data;
 
 import android.annotation.SuppressLint;
 import android.content.Context;
+import android.support.v4.view.ViewCompat;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -34,6 +35,7 @@ public class DataAdapter extends ArrayAdapter<Data> {
                         : convertView;
 
         TextView textView = gridView.findViewById(R.id.textView);
+        ViewCompat.setNestedScrollingEnabled(gridView,true);
         ImageView imageView = gridView.findViewById(R.id.imageView);
 
         textView.setText(dataList.get(position).getValue());
