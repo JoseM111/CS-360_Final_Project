@@ -1,0 +1,286 @@
+1. I need to refactor this code to make it work in a android app using a bottom navigation bar
+2. This is the content in my build.gradle file:
+plugins {
+    id 'com.android.application'
+}
+
+android {
+    namespace 'com.josem111'
+    compileSdk 33
+
+    defaultConfig {
+        applicationId "com.josem111"
+        minSdk 28
+        targetSdk 33
+        versionCode 1
+        versionName "1.0"
+
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes {
+        release {
+            minifyEnabled false
+            proguardFiles getDefaultProguardFile('proguard-android-optimize.txt'), 'proguard-rules.pro'
+        }
+    }
+    compileOptions {
+        sourceCompatibility JavaVersion.VERSION_1_8
+        targetCompatibility JavaVersion.VERSION_1_8
+    }
+    buildFeatures {
+        viewBinding true
+    }
+}
+
+dependencies {
+
+    //noinspection GradleCompatible
+    implementation 'com.android.support:appcompat-v7:28.0.0'
+    implementation 'com.android.support.constraint:constraint-layout:2.0.4'
+    implementation 'android.arch.lifecycle:livedata:1.1.1'
+    implementation 'android.arch.lifecycle:viewmodel:1.1.1'
+    implementation 'android.arch.navigation:navigation-fragment:1.0.0'
+    implementation 'android.arch.navigation:navigation-ui:1.0.0'
+    //noinspection GradleCompatible
+    implementation 'com.android.support:design:28.0.0'
+    testImplementation 'junit:junit:4.13.2'
+    androidTestImplementation 'com.android.support.test:runner:1.0.2'
+    androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+}
+
+3. I donot understand how to adjust my DataFragment.java file to be able to render my view when the data tab
+at the bottom of the android app is pressed. This is the content of that file:
+package com.josem111.ui.data;
+
+import android.arch.lifecycle.ViewModelProvider;
+import android.os.Bundle;
+import android.support.annotation.NonNull;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.GridView;
+
+import com.josem111.R;
+import com.josem111.databinding.FragmentDataBinding;
+
+public class DataFragment {
+    GridView gridView;
+
+    String[] values = {
+            "Java", "CSS3", "Android", "jQuery", "PHP", "MySpace",
+            "HTML5", "Javascript", "MySQL", "Python", "Swift",
+            "WordPress", "Facebook", "Youtube", "Twitter"
+    };
+
+    int[] images = {
+            R.drawable.image7, R.drawable.image2,
+            R.drawable.image3, R.drawable.image4,
+            R.drawable.image5, R.drawable.image6,
+            R.drawable.image7, R.drawable.image8,
+            R.drawable.image9, R.drawable.image10,
+    };
+
+    private FragmentDataBinding binding;
+
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+        DataViewModel dataViewModel =
+                new ViewModelProvider(this, new ViewModelProvider.NewInstanceFactory()).get(DataViewModel.class);
+
+        binding = FragmentDataBinding.inflate(inflater, container, false);
+        View root = binding.getRoot();
+
+        gridView = gridView.findViewById(R.id.gridView);
+        GridAdapter gridAdapter = new GridAdapter(this, values, images);
+        gridView.setAdapter(gridAdapter);
+        return root;
+    }
+
+    @Override
+    public void onDestroyView() {
+        super.onDestroyView();
+        binding = null;
+    }
+}
+
+4. My routing is set in the bottom_nav_menu.xml file in the menu folder. Here is the code for that:
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- home-view -->
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+    <!-- login-view -->
+    <item
+        android:id="@+id/navigation_login"
+        android:icon="@drawable/ic_login_black"
+        android:title="@string/title_login" />
+
+    <item
+        android:id="@+id/navigation_data"
+        android:icon="@drawable/ic_data_black_24dp"
+        android:title="@string/title_data" />
+</menu>
+
+5. My mobile_navigation.xml file content:
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- home-view -->
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+    <!-- login-view -->
+    <item
+        android:id="@+id/navigation_login"
+        android:icon="@drawable/ic_login_black"
+        android:title="@string/title_login" />
+
+    <item
+        android:id="@+id/navigation_data"
+        android:icon="@drawable/ic_data_black_24dp"
+        android:title="@string/title_data" />
+</menu>
+
+6. My DataViewModel code:
+package com.josem111.ui.data;
+
+import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.MutableLiveData;
+
+import com.josem111.R;
+
+public class DataViewModel {
+    private final MutableLiveData<String> mText;
+
+    public DataViewModel() {
+        mText = new MutableLiveData<>();
+        mText.setValue("this is a fragment");
+    }
+
+    public LiveData<String> getText() {
+        return mText;
+    }
+}
+
+7. This is my GridAdapter.java file content:
+package com.josem111.ui.data;
+
+import android.annotation.SuppressLint;
+import android.content.Context;
+import android.view.LayoutInflater;
+import android.view.View;
+import android.view.ViewGroup;
+import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.TextView;
+import android.widget.Toast;
+
+import com.josem111.R;
+
+public class GridAdapter extends BaseAdapter {
+
+    Context context;
+    private final String[] values;
+    private final int[] images;
+    LayoutInflater layoutInflater;
+
+    public GridAdapter(Context context, String[] values, int[] images) {
+        this.context = context;
+        this.values = values;
+        this.images = images;
+    }
+
+    @Override
+    public int getCount() {
+        return values.length;
+    }
+
+    @Override
+    public Object getItem(int position) {
+        return null;
+    }
+
+    @Override
+    public long getItemId(int position) {
+        return 0;
+    }
+
+    @SuppressLint({"ViewHolder", "InflateParams"})
+    @Override
+    public View getView(final int position, View convertView, ViewGroup parent) {
+
+        layoutInflater = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+
+
+        Holder holder = new Holder();
+        View rowView;
+
+        rowView = layoutInflater.inflate(R.layout.grid_item, null);
+        holder.tv = rowView.findViewById(R.id.textView);
+        holder.img = rowView.findViewById(R.id.imageView);
+
+        holder.tv.setText(values[position]);
+        holder.img.setImageResource(images[position]);
+
+        rowView.setOnClickListener(view -> {
+            Toast.makeText(context, "You Clicked " + values[position], Toast.LENGTH_LONG).show();
+        });
+
+        return rowView;
+    }
+
+    public static class Holder {
+        TextView tv;
+        ImageView img;
+    }
+
+}
+
+8. Finally this is my MainActivity.java file:
+package com.josem111;
+
+import android.os.Bundle;
+import android.support.design.widget.BottomNavigationView;
+import android.support.v7.app.AppCompatActivity;
+import android.widget.GridView;
+
+import androidx.navigation.NavController;
+import androidx.navigation.Navigation;
+import androidx.navigation.ui.AppBarConfiguration;
+import androidx.navigation.ui.NavigationUI;
+
+import com.josem111.databinding.ActivityMainBinding;
+import com.josem111.ui.data.GridAdapter;
+
+public class MainActivity extends AppCompatActivity {
+
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+
+        com.josem111.databinding.ActivityMainBinding binding = ActivityMainBinding.inflate(getLayoutInflater());
+        setContentView(binding.getRoot());
+
+        BottomNavigationView navView = findViewById(R.id.nav_view);
+        // Passing each menu ID as a set of Ids because each
+        // menu should be considered as top-level destinations.
+        AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
+                R.id.navigation_home, R.id.navigation_login, R.id.navigation_data)
+                .build();
+
+        NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);
+        NavigationUI.setupActionBarWithNavController(this, navController, appBarConfiguration);
+        NavigationUI.setupWithNavController(binding.navView, navController);
+    }
+
+}
+
+9. My issue is that the code in my fragment file is not working.
+10. I need you to refactor it to be able to render when the data tab in the running app is pressed.
+You can refactor any of the files I have provided to help the routing work and also createnew files
+if that makes the refactoring easier for you.
+11. Please think things through before beginning to better find the solution to my problem.
+12. respond with a `...` if you understand the task and begin once I respond with `s` for start.

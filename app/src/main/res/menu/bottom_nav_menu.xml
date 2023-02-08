@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+    <!-- home-view -->
+    <item
+        android:id="@+id/navigation_home"
+        android:icon="@drawable/ic_home_black_24dp"
+        android:title="@string/title_home" />
+    <!-- login-view -->
+    <item
+        android:id="@+id/navigation_login"
+        android:icon="@drawable/ic_login_black"
+        android:title="@string/title_login" />
+
+    <item
+        android:id="@+id/navigation_data"
+        android:icon="@drawable/ic_data_black_24dp"
+        android:title="@string/title_data" />
+</menu>

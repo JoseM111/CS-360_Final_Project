@@ -1,0 +1,32 @@
+<resources>
+    <string name="app_name">Events App</string>
+    <string name="title_home">Home</string>
+    <string name="title_dashboard">Dashboard</string>
+    <string name="title_data">Data</string>
+    <string name="title_login">Login/Create</string>
+    <string name="first_name">First name</string>
+    <string name="email">Email</string>
+    <string name="create_account">Create Account</string>
+    <string name="welcome_text">Eventi App\nCreate new Account</string>
+    <string name="create_account_btn">Create Account</string>
+    <string name="enter_full_name">Enter Full Name</string>
+    <string name="enter_email">Enter Email</string>
+    <string name="create_pwd">Create Password</string>
+    <!-- TODO: Remove or change this placeholder text -->
+    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <!-- Strings related to login -->
+    <string name="prompt_email">Email</string>
+    <string name="prompt_password">Password</string>
+    <string name="action_sign_in">Sign in or register</string>
+    <string name="action_sign_in_short">Sign in</string>
+    <string name="welcome">"Welcome!"</string>
+    <string name="invalid_username">Not a valid username</string>
+    <string name="invalid_password">Password must be >5 characters</string>
+    <string name="login_failed">"Login failed"</string>
+    <string name="dummy_data_1">Dummy Data 1</string>
+    <string name="dummy_data_2">Dummy Data 2</string>
+    <string name="dummy_data_3">Dummy Data 3</string>
+    <string name="add_data_btn">Add Data</string>
+    <string name="delete_btn">Delete</string>
+    <string name="toggle_btn_data">Toggle Data</string>
+</resources>

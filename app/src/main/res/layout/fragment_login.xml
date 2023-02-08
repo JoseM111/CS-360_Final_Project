@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:backgroundTint="#2196F3"
+    tools:context=".ui.login.LoginFragment">
+
+    <TextView
+        android:id="@+id/textView"
+        android:layout_width="350dp"
+        android:layout_height="200dp"
+        android:layout_marginStart="30dp"
+        android:layout_marginTop="20dp"
+        android:layout_marginEnd="20dp"
+        android:background="@color/cardview_dark_background"
+        android:fontFamily="monospace"
+        android:padding="35dp"
+        android:text="@string/welcome_text"
+        android:textAlignment="center"
+        android:textColor="@color/white"
+        android:textFontWeight="700"
+        android:textSize="30sp" />
+
+    <EditText
+        android:id="@+id/editTextPersonName"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="245dp"
+        android:autofillHints="@string/enter_full_name"
+        android:ems="10"
+        android:inputType="textPersonName"
+        android:labelFor="@id/editTextPersonName"
+        android:shadowColor="@color/cardview_dark_background"
+        android:hint="@string/enter_full_name"
+        tools:ignore="LabelFor" />
+
+    <EditText
+        android:id="@+id/editTextTextEmailAddress"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="295dp"
+        android:autofillHints="@string/enter_email"
+        android:ems="10"
+        android:inputType="textEmailAddress"
+        android:hint="@string/enter_email" />
+
+    <EditText
+        android:id="@+id/editTextTextPassword"
+        android:layout_width="wrap_content"
+        android:layout_height="48dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginTop="345dp"
+        android:autofillHints="password"
+        android:ems="10"
+        android:hint="@string/create_pwd"
+        android:inputType="textPassword" />
+
+    <Button
+        android:paddingTop="2dp"
+        android:paddingBottom="2dp"
+        android:paddingStart="20dp"
+        android:paddingEnd="20dp"
+        android:id="@+id/button"
+        android:background="@color/dodgerblue"
+        android:layout_width="210dp"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="420dp"
+        android:layout_marginStart="100dp"
+        android:fontFamily="monospace"
+        android:shadowColor="@color/cardview_dark_background"
+        android:text="@string/create_account_btn"
+        android:textColor="@color/white"
+        android:radius="10dp"
+        android:autoSizeTextType="uniform"
+        android:textFontWeight="700"
+        tools:ignore="RtlSymmetry" />
+
+</FrameLayout>
