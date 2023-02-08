@@ -1,4 +1,4 @@
-package com.josem111.ui.home;
+package com.josem111.ui.msg;
 
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.MutableLiveData;
