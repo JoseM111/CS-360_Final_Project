@@ -20,7 +20,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(binding.getRoot());
 
         AppBarConfiguration appBarConfiguration = new AppBarConfiguration.Builder(
-                R.id.navigation_home, R.id.navigation_login, R.id.navigation_data)
+                R.id.navigation_msg, R.id.navigation_login, R.id.navigation_data)
                 .build();
 
         NavController navController = Navigation.findNavController(this, R.id.nav_host_fragment_activity_main);

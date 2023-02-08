@@ -1,104 +1,29 @@
-1. The code still is not references the deleteData listener:
-2. Here is the code for both files:
-// grid_item.xml
-<?xml version="1.0" encoding="utf-8"?>
+1. I need the UI for my fragment_msg to follow a certain criteria.
+2. This is the current code I have:
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-    android:orientation="vertical">
-
-    <ImageView
-        android:id="@+id/imageView"
-        android:layout_width="100dp"
-        android:layout_height="100dp"
-        android:scaleType="centerCrop"
-        android:contentDescription="Image"
-        tools:ignore="HardcodedText" />
-
-    <TextView
-        android:id="@+id/textView"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Image Name"
-        tools:ignore="HardcodedText" />
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    android:gravity="center">
 
     <Button
-        android:id="@+id/deleteButton"
+        android:id="@+id/button_request_permission"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Delete"
-        android:onClick="deleteData"
+        android:text="Request Permission"
         tools:ignore="HardcodedText" />
 
 </LinearLayout>
-// DataAdapter.java
-package com.josem111.ui.data;
-
-import android.annotation.SuppressLint;
-import android.content.Context;
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.BaseAdapter;
-import android.widget.Button;
-import android.widget.ImageView;
-import android.widget.TextView;
-
-import com.josem111.R;
-
-import java.util.List;
-
-public class DataAdapter extends BaseAdapter {
-    private final Context mContext;
-    private final List<Data> mDataList;
-
-    public DataAdapter(Context context, List<Data> dataList) {
-        mContext = context;
-        mDataList = dataList;
-    }
-
-    @Override
-    public int getCount() {
-        return mDataList.size();
-    }
-
-    @Override
-    public Object getItem(int position) {
-        return mDataList.get(position);
-    }
-
-    @Override
-    public long getItemId(int position) {
-        return position;
-    }
-
-    @SuppressLint("InflateParams")
-    @Override
-    public View getView(final int position, View convertView, ViewGroup parent) {
-        View view = convertView;
-
-        if (view == null) {
-            LayoutInflater inflater = (LayoutInflater) mContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-            view = inflater.inflate(R.layout.grid_item, null);
-        }
-
-        ImageView imageView = view.findViewById(R.id.imageView);
-        TextView textView = view.findViewById(R.id.textView);
-        Button deleteButton = view.findViewById(R.id.deleteButton);
-
-        final Data data = mDataList.get(position);
-
-        imageView.setImageResource(data.getImage());
-        textView.setText(data.getValue());
-
-        deleteButton.setOnClickListener((View v) -> {
-            // Code to delete the data
-            mDataList.remove(position);
-            notifyDataSetChanged();
-        });
-
-        return view;
-    }
-}
-3. Take the code I provided and fix the issue reference in `1.` to make the code work correctly.
+3. I need the UI to fllow more of these guide lines:
+Create UI with appropriate design elements to prompt a user for permission
+to communicate with the text messaging app and display information based on
+ permission (1 screen). Your UI will need to include a button, or alternate
+  mechanism, that would cause the app to ask a user for permissions so it can
+   communicate with SMS messaging. A user that grants permission will then receive
+    automated system notifications based on which option you chose in Project One.
+     These notifications would be low inventory, an upcoming event,
+      or reaching a goal weight. If the user denies access to the permissions
+      needed for the app to interact with SMS, then your app should still continue
+       to function overall but should not provide any notifications.
+4. worry about the UI and less on the functionality.
